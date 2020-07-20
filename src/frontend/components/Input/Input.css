@@ -12,14 +12,21 @@
 }
 .input {
     height: 40px !important;
-    border: 1px solid #ccc;
-    padding: 0 20px;
+    border: 1px solid #ccc !important;
+    padding: 0 20px !important;
     font: 16px Arial;
     display: block;
     width: 100%;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
 }
 .input:focus {
-    outline: none;
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    border-color: #6e6e6e !important;
 }
 .input[type="submit"] {
     display: inline-block;

@@ -1,3 +1,59 @@
-.header {
-    padding: 0 30px;
+.mainSection {
+    padding: 30px;
+}
+.fieldWrapper {
+    display: flex;
+}
+.fieldInput {
+    width: 350px;
+    margin-right: 15px;
+}
+.buttonCopy {
+    padding: 0 20px;
+    height: 40px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    background: #f1f1f1;
+    font: 16px Arial;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.buttonCopy:focus {
+    outline: none;
+    border: 1px solid #6e6e6e;
+}
+.buttonCopy:hover {
+    border: 1px solid #6e6e6e;
+}
+.linkCopied {
+    font: 14px/40px Arial;
+    color: green;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.buttonDownload {
+    height: 40px;
+    width: 350px;
+    font: 16px Arial;
+    border: 1px solid #ccc;
+    background: #f1f1f1;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.buttonDownload:focus {
+    outline: none;
+    border: 1px solid #6e6e6e;
+}
+.buttonDownload:hover {
+    border: 1px solid #6e6e6e;
 }

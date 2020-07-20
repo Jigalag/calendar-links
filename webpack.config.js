@@ -1,6 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const DIST_DIR = path.resolve(__dirname, 'smt-plugin');
+const DIST_DIR = path.resolve(__dirname, 'calendar-links-plugin');
 const SRC_DIR = path.resolve(__dirname, 'src');
 
 module.exports = {

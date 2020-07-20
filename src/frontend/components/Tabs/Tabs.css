@@ -1,6 +1,7 @@
 .tabsWrapper {
     display: flex;
     flex-direction: column;
+    padding: 0 30px;
 }
 .tabsHeader {
     display: flex;
@@ -14,9 +15,6 @@
     margin-top: -1px;
     position: relative;
     z-index: 1;
-}
-.selectedTab {
-
 }
 .tabItem {
     display: flex;
@@ -45,4 +43,11 @@
     background: #ffffff;
     border-bottom-color: #ffffff;
     cursor: default;
+}
+.disabledTab {
+    cursor: default;
+    opacity: 0.5;
+}
+.disabledTab:hover {
+    background: #f1f1f1;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Input.css';
 
-function Input({type, value, label, onChange, placeholder, click}) {
+function Input({type, value, label, onChange, placeholder, click, readOnly, currentRef}) {
     const changeHandler = (e) => {
         onChange && onChange(e.target.value);
     };
@@ -16,6 +16,8 @@ function Input({type, value, label, onChange, placeholder, click}) {
             }
             <input type={ type }
                    value={value}
+                   readOnly={readOnly}
+                   ref={currentRef}
                    onChange={changeHandler}
                    placeholder={ placeholder }
                    className={styles.input}

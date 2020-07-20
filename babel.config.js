@@ -13,6 +13,11 @@ module.exports = (api) => {
           },
         },
       ],
+      ["@babel/plugin-transform-runtime",
+        {
+          "regenerator": true
+        }
+      ],
       'istanbul',
     ],
   };

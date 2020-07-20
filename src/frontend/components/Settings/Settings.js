@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Settings.css';
-import Tabs from "../Tabs/Tabs";
-import Tab from "../Tab/Tab";
-import GeneralSettings from "./GeneralSettings/GeneralSettings";
-import TwitterSettings from "./TwitterSettings/TwitterSettings";
-import FacebookSettings from "./FacebookSettings/FacebookSettings";
+import Input from "../Input/Input";
 
-function Settings({settings, forceSettings}) {
-    const { general, facebook, twitter } = settings;
+function Settings({  }) {
+    const [categories, setCategories] = useState('');
+    const generalSubmit = (e) => {
+        e.preventDefault();
+        console.log(categories);
+        const data = {
+        };
+        fetch(window.ajaxURL + '?action=saveSettings', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(data),
+        })
+    };
+    useEffect(() => {
+
+    }, []);
     return (
         <div className={styles.settings}>
-            <Tabs simpleTab={true}>
-                <Tab title={'General Settings'}>
-                    <GeneralSettings general={general || {}}/>
-                </Tab>
-                <Tab title={'Twitter Settings'}>
-                    <TwitterSettings forceSettings={forceSettings} twitterSettings={twitter || {}}/>
-                </Tab>
-                <Tab title={'Facebook Settings'}>
-                    <FacebookSettings forceSettings={forceSettings} facebookSettings={facebook || {}}/>
-                </Tab>
-            </Tabs>
+            <form>
+                <Input type={'number'} value={categories} onChange={setCategories} label={'Events Categories IDs'}/>
+                <Input type={'submit'} click={ generalSubmit } />
+            </form>
         </div>
     )
 }

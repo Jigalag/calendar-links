@@ -4,7 +4,7 @@ import styles from './Header.css';
 function Header() {
     return (
         <div className={styles.header}>
-            <h2>Social Media Trending</h2>
+            <h2>Calendar Links</h2>
         </div>
     )
 }

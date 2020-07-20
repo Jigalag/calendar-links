@@ -1,3 +1,20 @@
-.mainSection {
-
+.eventsSelectWrapper {
+    margin-bottom: 20px;
+}
+.selectEvents {
+    height: 40px;
+    width: 350px;
+    font: 16px Arial;
+    padding: 0 25px 0 20px !important;
+    border-color: #cecece !important;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    color: #000 !important;
+}
+.selectEvents:focus {
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
 }
