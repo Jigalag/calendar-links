@@ -15,6 +15,7 @@ function getEvents() {
         'conferences',
         'lohika-meet-ups',
         'webinars',
+        'webinar-episodes',
         'good-people-dinners'
     ];
     $all_events = [];
