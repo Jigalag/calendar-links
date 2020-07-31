@@ -82,7 +82,7 @@ function Settings({ categories, forceCategories, setForceCategories }) {
                     {
                         allCategories.map((category, index) => (
                             <option value={category.term_id} key={index} disabled={isOptionDisabled(category.term_id)}>
-                                {category.name}
+                                {category.name} ({category.slug})
                             </option>
                         ))
                     }
