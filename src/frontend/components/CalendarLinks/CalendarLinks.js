@@ -56,7 +56,6 @@ function CalendarLinks({}) {
     };
     const generateLinksByData = async (e) => {
         setLinkGenerating(true);
-        setSelectedEvent(null);
         e.preventDefault();
         const data = {
             startDate: format(startDate, 'L/d/yyyy'),
@@ -163,7 +162,6 @@ function CalendarLinks({}) {
             setEventTitle('');
             setEventDescription('');
             setEventLocation('');
-            setEventTimeZone('');
         } else {
             setGoogleLink('');
             setOutlookLink('');
