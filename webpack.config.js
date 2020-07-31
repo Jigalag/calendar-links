@@ -2,6 +2,7 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const DIST_DIR = path.resolve(__dirname, 'calendar-links-plugin');
 const SRC_DIR = path.resolve(__dirname, 'src');
+const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 
 module.exports = {
     entry: {
@@ -34,6 +35,9 @@ module.exports = {
             },
             {
                 test: /\.css$/,
+                exclude: [
+                    NODE_MODULES,
+                ],
                 use: [
                     {
                         loader: 'style-loader',
@@ -44,6 +48,33 @@ module.exports = {
                             sourceMap: true,
                             importLoaders: 1,
                             modules: true,
+                        },
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            config: {
+                                path: path.join(__dirname, '.'),
+                            },
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.css$/,
+                include: [
+                    NODE_MODULES,
+                ],
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                            importLoaders: 1,
+                            modules: false,
                         },
                     },
                     {

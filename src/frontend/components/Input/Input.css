@@ -35,3 +35,8 @@
     padding: 0 40px;
     cursor: pointer;
 }
+.notify {
+    font: 12px Arial;
+    color: red;
+    margin-top: 3px;
+}

@@ -6,6 +6,16 @@ import Tab from "../Tab/Tab";
 import Settings from "../Settings/Settings";
 
 function App() {
+    const [categories, setCategories] = useState([]);
+    const [forceCategories, setForceCategories] = useState([]);
+    useEffect(() => {
+        const getCategories = async () => {
+            const result = await fetch(window.ajaxURL + '?action=getCategories');
+            const content = await result.json();
+            setCategories(content.data);
+        };
+        getCategories();
+    }, [forceCategories]);
     return (
         <>
             <Header/>
@@ -14,7 +24,7 @@ function App() {
                     <CalendarLinks />
                 </Tab>
                 <Tab title={'Settings'}>
-                    <Settings />
+                    <Settings categories={categories} forceCategories={forceCategories} setForceCategories={setForceCategories}/>
                 </Tab>
             </Tabs>
         </>

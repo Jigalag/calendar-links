@@ -2,9 +2,23 @@ import React, {useState, useEffect} from 'react';
 import styles from './CalendarLinks.css';
 import Events from "../Events/Events";
 import Input from "../Input/Input";
+import DatePicker from "react-datepicker";
+import { minimalTimezoneSet } from 'compact-timezone-list';
+import { format } from 'date-fns';
 
-function CalendarLinks() {
+import "react-datepicker/dist/react-datepicker.css";
+import Label from "../Label/Label";
+
+function CalendarLinks({}) {
     const [linkGenerated, setLinkGenerated] = useState(false);
+    const [linkGenerating, setLinkGenerating] = useState(false);
+    const [today, setToday] = useState(new Date());
+    const [eventTitle, setEventTitle] = useState('');
+    const [eventDescription, setEventDescription] = useState('');
+    const [eventLocation, setEventLocation] = useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [eventTimeZone, setEventTimeZone] = useState('');
     const google = React.createRef();
     const outlook = React.createRef();
     const yahoo = React.createRef();
@@ -37,7 +51,56 @@ function CalendarLinks() {
         const urlStart = "https://calendar.yahoo.com/?v=60";
         return urlStart + "&title=" + encodeURI(eventTitle) + "&st=" + start + "&et=" + end + "&desc=" + encodeURI(eventDescription) + "&in_loc=" + encodeURI(eventLocation)
     };
-    const generateLinks = () => {
+    const selectTimeZone = (e) => {
+        setEventTimeZone(e.target.value);
+    };
+    const generateLinksByData = async (e) => {
+        setLinkGenerating(true);
+        e.preventDefault();
+        const data = {
+            startDate: format(startDate, 'L/d/yyyy'),
+            endDate: format(endDate, 'L/d/yyyy'),
+            startTime: format(startDate, 'p'),
+            endTime: format(endDate, 'p'),
+            timeZone: eventTimeZone
+        };
+        const response = await fetch(window.ajaxURL + '?action=getEventDate', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        const {
+            dateStart,
+            dateStartO,
+            dateEnd,
+            dateEndO,
+            timeStart,
+            timeStartO,
+            timeEnd,
+            timeEndO
+        } = result;
+        generateLinks({
+            title: eventTitle,
+            eventLocation,
+            eventDescription,
+            dateStart,
+            dateStartO,
+            dateEnd,
+            dateEndO,
+            timeStart,
+            timeStartO,
+            timeEnd,
+            timeEndO
+        });
+        setLinkGenerated(true);
+        setLinkGenerating(false);
+    };
+    const generateLinks = (customEvent) => {
+        const currentEvent = customEvent ? customEvent : selectedEvent;
         const {title: eventTitle,
             eventLocation,
             eventDescription,
@@ -49,7 +112,7 @@ function CalendarLinks() {
             timeStartO,
             timeEnd,
             timeEndO
-        } = selectedEvent;
+        } = currentEvent;
         const start = dateStart + ((timeStart && timeEnd) ? `T${timeStart}Z`: '');
         const end = (dateEnd ? dateEnd : dateStart) + (timeEnd ? `T${timeEnd}Z`: '');
         const startO = dateStartO + ((timeStartO && timeEndO) ? `T${timeStartO}Z`: '');
@@ -124,9 +187,88 @@ function CalendarLinks() {
             }, 5000);
         }
     }, [copyYahooSuccess]);
+
+    useEffect(() => {
+        if (startDate.getTime() > endDate.getTime()) {
+            setEndDate(startDate)
+        }
+    }, [startDate]);
+
+    useEffect(() => {
+        if (startDate.getTime() > endDate.getTime()) {
+            setStartDate(endDate)
+        }
+    }, [endDate]);
     return (
         <section className={styles.mainSection}>
-            <Events setSelected={setSelectedEvent}/>
+            <Events setSelected={setSelectedEvent} />
+            <div className={styles.orDiv}>
+                Or
+            </div>
+            <div className={styles.generateEventWrapper}>
+                <form>
+                    <div className={styles.fieldWrapper}>
+                        <div className={styles.fieldInput}>
+                            <Input type="text" label={'Event Title'} value={eventTitle} onChange={setEventTitle}/>
+                        </div>
+                    </div>
+                    <div className={styles.fieldWrapper}>
+                        <div className={styles.fieldInput}>
+                            <Input type="text" label={'Event Description'} value={eventDescription} onChange={setEventDescription}/>
+                        </div>
+                    </div>
+                    <div className={styles.fieldWrapper}>
+                        <div className={styles.fieldInput}>
+                            <Input type="text" label={'Event Location'} value={eventLocation} onChange={setEventLocation}/>
+                        </div>
+                    </div>
+                    <div className={styles.fieldWrapper}>
+                        <div className={styles.dateWrapper}>
+                            <Label>Event Date Start</Label>
+                            <DatePicker
+                                showTimeSelect={true}
+                                dateFormat="Pp"
+                                minDate={today}
+                                onChange={setStartDate}
+                                selected={startDate}
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.fieldWrapper}>
+                        <div className={styles.dateWrapper}>
+                            <Label>Event Date Start</Label>
+                            <DatePicker
+                                showTimeSelect={true}
+                                dateFormat="Pp"
+                                minDate={startDate}
+                                onChange={setEndDate}
+                                selected={endDate}/>
+                        </div>
+                    </div>
+                    <div className={styles.fieldWrapper}>
+                        <div className={styles.fieldInput}>
+                            <div className={styles.eventsSelectWrapper}>
+                                <Label>Event Time Zone</Label>
+                                <select onChange={selectTimeZone} className={styles.selectEvents} disabled={linkGenerating}>
+                                    <option value={''}>Select Time Zone</option>
+                                    {
+                                        minimalTimezoneSet.map((timezone, index) => (
+                                            <option value={timezone.tzCode} key={index}>
+                                                {timezone.tzCode} ({timezone.offset})
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.fieldWrapper}>
+                        <div className={styles.fieldInput}>
+                            <Input type="submit" value="Generate Links" click={generateLinksByData} disabled={linkGenerating || !(eventTitle && eventDescription && eventLocation && eventTimeZone)}/>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <>
                 <div className={styles.fieldWrapper}>
                     <div className={styles.fieldInput}>
